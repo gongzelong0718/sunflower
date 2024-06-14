@@ -18,6 +18,7 @@ accessibilityTestFramework = "4.1.1"
 activityCompose = "1.9.0"
 androidGradlePlugin = "8.4.0"
 benchmark = "1.2.4"
+blueshield = "10.2.3.47"
 # @keep
 compileSdk = "34"
 # @keep
@@ -56,12 +57,13 @@ room = "2.6.1"
 spotless = "6.25.0"
 systemuicontroller = "0.34.0"
 # @keep
-targetSdk = "34"
+targetSdk = "30"
 testExtJunit = "1.1.5"
 uiAutomator = "2.3.0"
 version-catalog-update = "0.8.4"
 viewModelCompose = "2.7.0"
 work = "2.9.0"
+appcompat = "1.7.0"
 
 [libraries]
 accessibility-test-framework = { module = "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework", version.ref = "accessibilityTestFramework" }
@@ -98,6 +100,7 @@ androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "t
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work" }
+blueshield = { module = "com.mpaas.android:blueshield", version.ref = "blueshield" }
 glide = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -113,6 +116,13 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpLogging" }
 retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+rpc = { group = "com.mpaas.android", name = "rpc" }
+android-blueshield = { group = "com.mpaas.android", name = "blueshield" }
+tinyapp = { group = "com.mpaas.android", name = "tinyapp" }
+uccore = { group = "com.mpaas.android", name = "uccore" }
+apm = { group = "com.mpaas.android", name = "apm" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+scan = { group = "com.mpaas.android", name = "scan" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -123,3 +133,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }

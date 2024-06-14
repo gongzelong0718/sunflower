@@ -26,10 +26,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.codescanner.CodeScannerActivity
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.compose.gallery.GalleryScreen
 import com.google.samples.apps.sunflower.compose.home.HomeScreen
 import com.google.samples.apps.sunflower.compose.plantdetail.PlantDetailsScreen
+import com.mpaas.nebula.adapter.api.MPNebula
 
 @Composable
 fun SunflowerApp() {
@@ -63,7 +65,14 @@ fun SunFlowerNavHost(
             PlantDetailsScreen(
                 onBackClick = { navController.navigateUp() },
                 onShareClick = {
-                    createShareIntent(activity, it)
+//                    createShareIntent(activity, it)
+//                    val intent = Intent(activity, RpcMainActivity::class.java)
+//                    activity.startActivity(intent)
+                    MPNebula.startApp("2020080120200801");
+
+//                    val intent = Intent(activity, CodeScannerActivity::class.java)
+//                    activity.startActivity(intent)
+
                 },
                 onGalleryClick = {
                     navController.navigate(

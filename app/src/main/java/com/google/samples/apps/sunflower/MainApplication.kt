@@ -18,10 +18,36 @@ package com.google.samples.apps.sunflower
 
 import android.app.Application
 import androidx.work.Configuration
+import com.alipay.mobile.nebula.provider.H5AppCenterPresetProvider
+import com.alipay.mobile.nebula.util.H5Utils
+import com.mpaas.apm.api.MPMonitor
+import com.mpaas.core.MP
+import com.mpaas.core.MPInitParam
+import com.mpaas.tinyappcommonres.TinyAppCenterPresetProvider
 import dagger.hilt.android.HiltAndroidApp
+
 
 @HiltAndroidApp
 class MainApplication : Application(), Configuration.Provider {
+  override fun onCreate() {
+    super.onCreate()
+//    // mPaaS 初始化
+//    MP.init(this)
+
+    MP.init(
+      this,
+      MPInitParam.obtain().setCallback {
+        // 初始化小程序公共资源包
+        H5Utils.setProvider(
+          H5AppCenterPresetProvider::class.java.name,
+          TinyAppCenterPresetProvider()
+        )
+      }
+    )
+
+    // 开启自定义网络性能监控开关
+      MPMonitor.enableNetMonitor();
+  }
   override val workManagerConfiguration: Configuration
     get() = Configuration.Builder()
       .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)

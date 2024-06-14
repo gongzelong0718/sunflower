@@ -19,6 +19,7 @@ plugins {
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.ksp)
   alias(libs.plugins.hilt)
+  id("com.alipay.apollo.baseline.config")
 }
 
 android {
@@ -32,7 +33,7 @@ android {
     targetSdk = libs.versions.targetSdk.get().toInt()
     testInstrumentationRunner = "com.google.samples.apps.sunflower.utilities.MainTestRunner"
     versionCode = 1
-    versionName = "0.1.6"
+    versionName = "1.0.0"
     vectorDrawables.useSupportLibrary = true
 
     // Consult the README on instructions for setting up Unsplash API key
@@ -43,7 +44,48 @@ android {
       }
     }
   }
+  signingConfigs {
+//    // Define a new signing config for debug
+//    create("debug") {
+//      storeFile = file("path/to/your/debug.keystore")
+//      storePassword = "yourStorePassword"
+//      keyAlias = "yourKeyAlias"
+//      keyPassword = "yourKeyPassword"
+//    }
+    // Instead of creating a new 'debug', get the reference to the existing one
+    getByName("debug") {
+      // Modify the existing debug signing config with your custom details
+//      storeFile = file("keystore/sunflower.keystore")
+      storeFile = file("keystore/sunflower.keystore")
+      storePassword = "123456"
+      keyAlias = "sunflower"
+      keyPassword = "123456"
+
+      enableV1Signing = true
+      enableV2Signing = true
+      enableV3Signing = true
+      enableV4Signing = true
+
+//      // 添加这一行来启用v1签名
+//      v1SigningEnabled = true
+    }
+  }
   buildTypes {
+    // No need to explicitly set the signingConfig for 'debug' here;
+    // it will automatically use the modified 'debug' signing config.
+    getByName("debug") {
+      // Apply the custom debug signing config
+      signingConfig = signingConfigs.getByName("debug")
+//      // 在对应的buildType中直接启用v1签名
+//      v1SigningEnabled = true
+//      v2SigningEnabled = true // 确保v2签名也启用，保持最佳兼容性
+      // 假设您的签名配置已正确设置，这里仅展示如何在buildType中控制
+      // 注意：直接控制v1/v2的属性名称可能会有所不同，以下为示意
+//      signingConfig {
+//        enableV1Signing = true
+//        enableV2Signing = true
+//      }
+    }
     release {
       isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
@@ -109,6 +151,14 @@ androidComponents {
 }
 
 dependencies {
+  implementation(platform("com.mpaas.android:${rootProject.ext["mpaas_artifact"]}:${rootProject.ext["mpaas_baseline"]}"))
+  //移动网关
+  implementation(libs.rpc)
+  implementation(libs.android.blueshield)
+  implementation(libs.tinyapp)
+  implementation(libs.uccore)
+  implementation(libs.apm)
+  implementation(project(":codescanner"))
   ksp(libs.androidx.room.compiler)
   ksp(libs.hilt.android.compiler)
   implementation(libs.androidx.core.ktx)
@@ -128,6 +178,9 @@ dependencies {
   implementation(libs.hilt.android)
   implementation(libs.hilt.navigation.compose)
   implementation(libs.androidx.profileinstaller)
+  implementation(libs.blueshield)//蓝盾SDK依赖
+  implementation("com.mpaas.android:logging")//日志组件SDK依赖，如果不添加，会导致不打印可信模块管理器构造实例成功
+
 
   // Compose
   implementation(platform(libs.androidx.compose.bom))
@@ -167,4 +220,11 @@ dependencies {
 
 fun getUnsplashAccess(): String? {
   return project.findProperty("unsplash_access_key") as? String
+}
+
+// 使用 exclude 排除特定依赖
+configurations.all {
+  resolutionStrategy {
+    exclude(group = "com.alipay.android.phone.thirdparty", module = "securityguard-build")
+  }
 }
